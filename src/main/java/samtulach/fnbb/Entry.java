@@ -23,6 +23,7 @@ SOFTWARE.
 */
 package samtulach.fnbb;
 
+import lombok.extern.log4j.Log4j2;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 
@@ -31,36 +32,37 @@ import java.awt.*;
 /**
  * @author Demmonic
  */
+@Log4j2
 public class Entry {
 
-    private Entry() { }
+    private Entry() {
+    }
 
     public static void main(String[] args) {
-        try {
-            GlobalScreen.registerNativeHook();
-        } catch (NativeHookException e) {
-            System.err.println("Failed to register native hook!");
-            e.printStackTrace();
-            System.exit(1);
-        }
-
+        log.info("Creating robot...");
         Robot robot = null;
         try {
             robot = new Robot();
         } catch (Exception e) {
-            System.err.println("Failed to create robot!");
-            e.printStackTrace();
+            log.error("Failed to create robot!", e);
             System.exit(1);
         }
 
+        log.info("Registering native hook...");
+        try {
+            GlobalScreen.registerNativeHook();
+        } catch (NativeHookException e) {
+            log.error("Failed to register native hook!", e);
+            System.exit(1);
+        }
+
+        log.info("Registering hook listener...");
         try {
             GlobalScreen.addNativeKeyListener(new MouseHub(robot));
         } catch (Exception e) {
-            System.out.println(">> ERROR <<");
-            GlobalScreen.addNativeKeyListener(new MouseHub(robot));
+            log.error("Failed to add key listener!", e);
+            System.exit(1);
         }
-
-        GlobalScreen.addNativeKeyListener(new MouseHub(robot));
     }
 
 }

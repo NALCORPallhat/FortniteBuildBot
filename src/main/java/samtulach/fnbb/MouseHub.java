@@ -24,6 +24,7 @@ SOFTWARE.
 
 package samtulach.fnbb;
 
+import lombok.extern.log4j.Log4j2;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
@@ -38,6 +39,7 @@ import java.awt.event.KeyEvent;
  *
  * @author SamuelTulach
  */
+@Log4j2
 public class MouseHub implements NativeKeyListener {
 
     private final Robot robot;
@@ -48,7 +50,7 @@ public class MouseHub implements NativeKeyListener {
 
     @Override
     public void nativeKeyPressed(NativeKeyEvent e) {
-        System.out.println("Detected key press: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+        log.debug("Detected key press: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
 
         if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
             try {
@@ -59,21 +61,21 @@ public class MouseHub implements NativeKeyListener {
         }
 
         if (e.getKeyCode() == NativeKeyEvent.VC_F) {
-            System.out.println("Automating building");
+            log.debug("Automating building");
             if (!tryAutomateBuild()) {
-                System.out.println("Failed to automate building :(");
+                log.error("Failed to automate building :(");
             }
         }
     }
 
     @Override
     public void nativeKeyReleased(NativeKeyEvent e) {
-        System.out.println("Detected key released: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+        log.debug("Detected key released: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
     }
 
     @Override
     public void nativeKeyTyped(NativeKeyEvent e) {
-        System.out.println("Detected key typed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+        log.debug("Detected key typed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
     }
 
     /**
