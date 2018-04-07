@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-package samtulach;
+package samtulach.fnbb;
 
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
